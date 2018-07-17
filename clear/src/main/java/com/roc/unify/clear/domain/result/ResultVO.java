@@ -1,4 +1,4 @@
-package com.roc.unify.clear.domain;
+package com.roc.unify.clear.domain.result;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,4 +1,6 @@
-package com.roc.unify.clear.domain;
+package com.roc.unify.clear.domain.exception;
+
+import com.roc.unify.clear.domain.result.ResultCodeInterface;
 
 /**
  * 业务运行时异常

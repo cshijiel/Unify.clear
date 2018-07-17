@@ -1,9 +1,9 @@
 package com.roc.unify.clear.resolver;
 
 import com.roc.unify.clear.annotation.ExceptionHandler;
-import com.roc.unify.clear.domain.BizRuntimeException;
-import com.roc.unify.clear.domain.ResultCodeEnum;
-import com.roc.unify.clear.domain.ResultVO;
+import com.roc.unify.clear.domain.exception.BizRuntimeException;
+import com.roc.unify.clear.domain.result.ResultCodeEnum;
+import com.roc.unify.clear.domain.result.ResultVO;
 
 /**
  * 全局异常处理器 Demo

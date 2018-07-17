@@ -10,6 +10,6 @@ import java.util.UUID;
  */
 public class TraceUtil {
     public static String getTraceId() {
-        return UUID.randomUUID().toString().replace("-", "");
+        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
 }

@@ -1,6 +1,6 @@
 package com.roc.unify.clear.util;
 
-import com.roc.unify.clear.domain.BizRuntimeException;
+import com.roc.unify.clear.domain.exception.BizRuntimeException;
 import org.junit.Assert;
 import org.junit.Test;
 

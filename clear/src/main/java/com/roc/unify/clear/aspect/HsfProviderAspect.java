@@ -2,7 +2,7 @@ package com.roc.unify.clear.aspect;
 
 
 import com.roc.unify.clear.Unify;
-import com.roc.unify.clear.domain.ResultVO;
+import com.roc.unify.clear.domain.result.ResultVO;
 import com.roc.unify.clear.resolver.GlobalExceptionHandler;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

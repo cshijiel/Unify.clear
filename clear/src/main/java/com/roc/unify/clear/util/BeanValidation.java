@@ -1,7 +1,7 @@
 package com.roc.unify.clear.util;
 
-import com.roc.unify.clear.domain.BizRuntimeException;
-import com.roc.unify.clear.domain.ResultCodeEnum;
+import com.roc.unify.clear.domain.exception.BizRuntimeException;
+import com.roc.unify.clear.domain.result.ResultCodeEnum;
 import com.roc.unify.clear.flow.JsrValidator;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;

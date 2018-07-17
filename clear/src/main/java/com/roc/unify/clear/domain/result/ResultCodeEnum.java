@@ -1,4 +1,4 @@
-package com.roc.unify.clear.domain;
+package com.roc.unify.clear.domain.result;
 
 /**
  * 此枚举定义如果不合适或定义缺失，可自行实现ResultCodeInterface
