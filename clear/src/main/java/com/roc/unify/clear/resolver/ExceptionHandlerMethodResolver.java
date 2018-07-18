@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  * Discovers {@linkplain ExceptionHandler @ExceptionHandler} methods in a given class,
  * including all of its superclasses, and helps to resolve a given {@link Exception}
- * to the exception types supported by a given {@link Method}.
+ * to the throwable types supported by a given {@link Method}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -81,7 +81,7 @@ public class ExceptionHandlerMethodResolver {
 
 
     /**
-     * Extract exception mappings from the {@code @ExceptionHandler} annotation first,
+     * Extract throwable mappings from the {@code @ExceptionHandler} annotation first,
      * and then as a fallback from the method signature itself.
      */
     @SuppressWarnings("unchecked")
@@ -96,7 +96,7 @@ public class ExceptionHandlerMethodResolver {
             }
         }
         if (result.isEmpty()) {
-            throw new IllegalStateException("No exception types mapped to " + method);
+            throw new IllegalStateException("No throwable types mapped to " + method);
         }
         return result;
     }
@@ -115,18 +115,18 @@ public class ExceptionHandlerMethodResolver {
     }
 
     /**
-     * Whether the contained type has any exception mappings.
+     * Whether the contained type has any throwable mappings.
      */
     public boolean hasExceptionMappings() {
         return !this.mappedMethods.isEmpty();
     }
 
     /**
-     * Find a {@link Method} to handle the given exception.
+     * Find a {@link Method} to handle the given throwable.
      * Use {@link ExceptionDepthComparator} if more than one match is found.
      *
-     * @param exception the exception
-     * @return a Method to handle the exception, or {@code null} if none found
+     * @param exception the throwable
+     * @return a Method to handle the throwable, or {@code null} if none found
      */
     public Method resolveMethod(Exception exception) {
         Method method = resolveMethodByExceptionType(exception.getClass());
@@ -140,11 +140,11 @@ public class ExceptionHandlerMethodResolver {
     }
 
     /**
-     * Find a {@link Method} to handle the given exception type. This can be
+     * Find a {@link Method} to handle the given throwable type. This can be
      * useful if an {@link Exception} instance is not available (e.g. for tools).
      *
-     * @param exceptionType the exception type
-     * @return a Method to handle the exception, or {@code null} if none found
+     * @param exceptionType the throwable type
+     * @return a Method to handle the throwable, or {@code null} if none found
      */
     public Method resolveMethodByExceptionType(Class<? extends Throwable> exceptionType) {
         Method method = this.exceptionLookupCache.get(exceptionType);
@@ -156,7 +156,7 @@ public class ExceptionHandlerMethodResolver {
     }
 
     /**
-     * Return the {@link Method} mapped to the given exception type, or {@code null} if none.
+     * Return the {@link Method} mapped to the given throwable type, or {@code null} if none.
      */
     private Method getMappedMethod(Class<? extends Throwable> exceptionType) {
         List<Class<? extends Throwable>> matches = new ArrayList<Class<? extends Throwable>>();

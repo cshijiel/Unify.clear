@@ -21,5 +21,6 @@ public class InvokeMethod {
     private Method method;
     private Object[] args;
 
-    private Exception exception;
+    private Object result;
+    private Throwable throwable;
 }

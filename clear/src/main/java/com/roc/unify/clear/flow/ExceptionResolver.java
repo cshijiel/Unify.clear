@@ -19,7 +19,7 @@ public class ExceptionResolver {
     public static Object processException(ProceedingJoinPoint pjp, Throwable throwable, Class<?> returnType,
                                           Object globalExceptionHandler) {
         Method classMethod = RefUtil.getClassMethod(pjp);
-        // for inner exception handle
+        // for inner throwable handle
         Object target = pjp.getTarget();
         log.error(RefUtil.getMethodFullName(classMethod) + ": ", throwable);
 
@@ -29,12 +29,12 @@ public class ExceptionResolver {
         }
         Exception exception = ((Exception) throwable);
 
-        // inner exception handler
+        // inner throwable handler
         Object exceptionHandler = target;
         ExceptionHandlerMethodResolver resolver = new ExceptionHandlerMethodResolver(exceptionHandler.getClass());
         Method resolveMethod = resolver.resolveMethod(exception);
         if (resolveMethod == null) {
-            // global exception handler
+            // global throwable handler
             exceptionHandler = globalExceptionHandler;
             resolver = new ExceptionHandlerMethodResolver(exceptionHandler.getClass());
             resolveMethod = resolver.resolveMethod(exception);

@@ -1,6 +1,7 @@
 package com.roc.unify.clear.flow;
 
-import com.roc.unify.clear.domain.exception.BizRuntimeException;
+import com.roc.unify.clear.domain.InvokeMethod;
+import com.roc.unify.clear.domain.exception.SimpleBizException;
 import com.roc.unify.clear.domain.result.ResultCodeEnum;
 import com.roc.unify.clear.util.RefUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -54,11 +55,20 @@ public class JsrValidator {
         processConstraintViolations(constraintViolations, realMethod);
     }
 
+    public void validate(InvokeMethod invokeMethod) {
+        Object target = invokeMethod.getTarget();
+        Object[] args = invokeMethod.getArgs();
+        Method realMethod = invokeMethod.getMethod();
+
+        Set<ConstraintViolation<Object>> constraintViolations = VALIDATOR.validateParameters(target, realMethod, args);
+        processConstraintViolations(constraintViolations, realMethod);
+    }
+
     private static void processConstraintViolations(Set<ConstraintViolation<Object>> constraintViolations, Method realMethod) {
         if (!CollectionUtils.isEmpty(constraintViolations)) {
             String errorMessage = parseConstraintViolation(constraintViolations, realMethod);
             // 这里可以更通用些, 但是统一错误码也没什么坏处
-            throw new BizRuntimeException(ResultCodeEnum.PARAMETER_ERROR, errorMessage);
+            throw new SimpleBizException(ResultCodeEnum.PARAMETER_ERROR, errorMessage);
         }
     }
 

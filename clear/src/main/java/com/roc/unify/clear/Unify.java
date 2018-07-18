@@ -1,9 +1,8 @@
 package com.roc.unify.clear;
 
 import com.roc.unify.clear.config.Configuration;
+import com.roc.unify.clear.domain.InvokeMethod;
 import com.roc.unify.clear.flow.ExceptionResolver;
-import com.roc.unify.clear.flow.JsrValidator;
-import com.roc.unify.clear.flow.LogPrinter;
 import com.roc.unify.clear.util.RefUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -44,17 +43,22 @@ public class Unify {
             return pjp.proceed();
         }
 
+        InvokeMethod invokeMethod = RefUtil.getInvokeMethod(pjp);
+
         Object result;
         try {
-            LogPrinter.printLog4InputParams(pjp);
-            JsrValidator.validate(pjp);
+            Configuration.LogConfig.log4InputParams.accept(invokeMethod);
+            Configuration.ValidatorConfig.jsrValidator.accept(invokeMethod);
             result = pjp.proceed();
+            invokeMethod.setResult(result);
+            Configuration.LogConfig.log4ReturnValues.accept(invokeMethod);
         } catch (Throwable throwable) {
+            invokeMethod.setThrowable(throwable);
+            Configuration.LogConfig.log4Exceptions.accept(invokeMethod);
             result = ExceptionResolver.processException(pjp, throwable, returnType, globalExceptionHandler);
         } finally {
             MDC.clear();
         }
-        LogPrinter.printLog4ReturnValues(pjp, result);
         return result;
     }
 }
