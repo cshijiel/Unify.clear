@@ -34,31 +34,33 @@ public class Unify {
      */
     public static Object clear(ProceedingJoinPoint pjp, Class<?> returnType, Object globalExceptionHandler)
             throws Throwable {
-        String traceId = Configuration.traceUtil.get();
-        MDC.put(TRACE_KEY, traceId);
-        Method classMethod = RefUtil.getClassMethod(pjp);
-
-        // 类型检查
-        if (!returnType.isAssignableFrom(classMethod.getReturnType())) {
-            return pjp.proceed();
-        }
-
-        InvokeMethod invokeMethod = RefUtil.getInvokeMethod(pjp);
-
-        Object result;
         try {
-            Configuration.LogConfig.log4InputParams.accept(invokeMethod);
-            Configuration.ValidatorConfig.jsrValidator.accept(invokeMethod);
-            result = pjp.proceed();
-            invokeMethod.setResult(result);
-            Configuration.LogConfig.log4ReturnValues.accept(invokeMethod);
-        } catch (Throwable throwable) {
-            invokeMethod.setThrowable(throwable);
-            Configuration.LogConfig.log4Exceptions.accept(invokeMethod);
-            result = ExceptionResolver.processException(pjp, throwable, returnType, globalExceptionHandler);
+            String traceId = Configuration.traceUtil.get();
+            MDC.put(TRACE_KEY, traceId);
+            Method classMethod = RefUtil.getClassMethod(pjp);
+
+            // 类型检查
+            if (!returnType.isAssignableFrom(classMethod.getReturnType())) {
+                return pjp.proceed();
+            }
+
+            InvokeMethod invokeMethod = RefUtil.getInvokeMethod(pjp);
+
+            Object result;
+            try {
+                Configuration.LogConfig.log4InputParams.accept(invokeMethod);
+                Configuration.ValidatorConfig.jsrValidator.accept(invokeMethod);
+                result = pjp.proceed();
+                invokeMethod.setResult(result);
+                Configuration.LogConfig.log4ReturnValues.accept(invokeMethod);
+            } catch (Throwable throwable) {
+                invokeMethod.setThrowable(throwable);
+                Configuration.LogConfig.log4Exceptions.accept(invokeMethod);
+                result = ExceptionResolver.processException(pjp, throwable, returnType, globalExceptionHandler);
+            }
+            return result;
         } finally {
             MDC.clear();
         }
-        return result;
     }
 }
